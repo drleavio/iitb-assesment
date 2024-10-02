@@ -154,12 +154,11 @@ let tableData = [
   },
 ];
 
-// Function to render table rows from the array
 function renderTable() {
-  tableBody.innerHTML = ""; // Clear existing rows
+  tableBody.innerHTML = "";
   tableData.forEach((data, index) => {
     const row = document.createElement("tr");
-    row.dataset.index = index; // Store the index in the row
+    row.dataset.index = index;
     row.innerHTML = `  
             <td>✔️</td>  
             <td style="border-right: 1px solid gray">${
@@ -180,19 +179,16 @@ function renderTable() {
   });
 }
 
-// Function to handle row selection
 function selectRow(row) {
   if (selectedRow) {
-    // resetRow(selectedRow); // Reset the previous row
-    selectedRow.classList.remove("highlight"); // Remove highlight from the previous row
+    selectedRow.classList.remove("highlight");
   }
 
-  selectedRow = row; // Set new selected row
+  selectedRow = row;
   row.classList.add("highlight");
-  makeEditable(row); // Make the selected row editable
+  makeEditable(row);
 }
 
-// Function to make a row editable
 function makeEditable(row) {
   selectedRow = row;
   const cells = row.querySelectorAll("td");
@@ -203,18 +199,15 @@ function makeEditable(row) {
     input.type =
       cellIndex === 3 || cellIndex === 4 || cellIndex === 6 || cellIndex === 8
         ? "number"
-        : "text"; // Adjust input type for numeric values
-    cell.innerHTML = ""; // Clear the cell
-    // Add input to cell
-    input.focus(); // Focus the input field
+        : "text";
+    cell.innerHTML = "";
+
+    input.focus();
     input.select();
     cell.appendChild(input);
     input.value = currentVal;
-    // input.addEventListener("blur", () => {
-    //   saveRowData(row); // Save when input loses focus
-    // });
   });
-  row.classList.add("editing"); // Add editing class
+  row.classList.add("editing");
 }
 
 function saveRowData(row) {
@@ -223,8 +216,8 @@ function saveRowData(row) {
   cells.forEach((cell, cellIndex) => {
     const input = cell.querySelector("input");
     if (input) {
-      const newValue = input.value; // Get new value from input
-      cell.innerHTML = newValue; // Restore original value to cell
+      const newValue = input.value;
+      cell.innerHTML = newValue;
       const fieldNames = [
         "id",
         "chemicalName",
@@ -236,7 +229,6 @@ function saveRowData(row) {
         "unit",
         "quantity",
       ];
-      // Update the data structure
       tableData[row.dataset.index][fieldNames[cellIndex]] =
         cellIndex === 3 || cellIndex === 4 || cellIndex === 6 || cellIndex === 8
           ? parseFloat(newValue)
@@ -245,7 +237,6 @@ function saveRowData(row) {
   });
 }
 
-// Function to reset the row back to normal content
 function resetRow(row) {
   const cells = row.querySelectorAll("td");
   cells.forEach((cell, cellIndex) => {
@@ -262,17 +253,16 @@ function resetRow(row) {
         "unit",
         "quantity",
       ];
-      cell.innerHTML = input.value; // Restore original value
-      tableData[row.dataset.index][fieldNames[cellIndex]] = input.value; // Update data array
+      cell.innerHTML = input.value;
+      tableData[row.dataset.index][fieldNames[cellIndex]] = input.value;
     }
   });
-  row.classList.remove("editing"); // Remove editing class
+  row.classList.remove("editing");
 }
 
-// Function to add a new row
 document.getElementById("add-row").onclick = function () {
   const newId =
-    tableData.length > 0 ? tableData[tableData.length - 1].id + 1 : 1; // Increment ID
+    tableData.length > 0 ? tableData[tableData.length - 1].id + 1 : 1;
   const newData = {
     id: newId,
     chemicalName: "",
@@ -284,67 +274,58 @@ document.getElementById("add-row").onclick = function () {
     unit: "",
     quantity: "",
   };
-  tableData.push(newData); // Add new data to the array
-  renderTable(); // Re-render the table
-  selectRow(tableBody.lastElementChild); // Select the new row
+  tableData.push(newData);
+  renderTable();
+  selectRow(tableBody.lastElementChild);
 };
 
-// Function to delete the selected row
 document.getElementById("delete-row").onclick = function () {
   if (selectedRow) {
     const index = parseInt(selectedRow.dataset.index, 10);
-    tableData.splice(index, 1); // Remove data from the array
-    renderTable(); // Re-render the table
-    selectedRow = null; // Clear the selected row
+    tableData.splice(index, 1);
+    renderTable();
+    selectedRow = null;
   }
 };
 
-// Move Up button functionality
 document.getElementById("move-up").onclick = function () {
   if (selectedRow) {
     const index = parseInt(selectedRow.dataset.index, 10);
     if (index > 0) {
-      // Swap data in the array
       [tableData[index - 1], tableData[index]] = [
         tableData[index],
         tableData[index - 1],
       ];
-      renderTable(); // Re-render the table to reflect changes
-      selectRow(tableBody.children[index - 1]); // Select the moved row
+      renderTable();
+      selectRow(tableBody.children[index - 1]);
     }
   }
 };
 
-// Move Down button functionality
 document.getElementById("move-down").onclick = function () {
   if (selectedRow) {
     const index = parseInt(selectedRow.dataset.index, 10);
     if (index < tableData.length - 1) {
-      // Swap data in the array
       [tableData[index + 1], tableData[index]] = [
         tableData[index],
         tableData[index + 1],
       ];
-      renderTable(); // Re-render the table to reflect changes
-      selectRow(tableBody.children[index + 1]); // Select the moved row
+      renderTable();
+      selectRow(tableBody.children[index + 1]);
     }
   }
 };
 
-// Save button functionality
 document.getElementById("save").onclick = function () {
   if (selectedRow) {
-    resetRow(selectedRow); // Save changes to the array and the table
-    // selectedRow = null; // Clear the selected row
-    // renderTable();
+    resetRow(selectedRow);
   }
 };
 
 document.getElementById("refresh-table").onclick = function () {
-  tableData = JSON.parse(JSON.stringify(tableData)); // Reset to initial data
-  renderTable(); // Re-render the table
-  selectedRow = null; // Clear selection
+  tableData = JSON.parse(JSON.stringify(tableData));
+  renderTable();
+  selectedRow = null;
 };
 
-// Initial render of the table
 renderTable();
