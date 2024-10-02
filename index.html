@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="upper-container">
+        <div class="heading">Chemical supplies</div>
+        <div class="left">
+          <div class="img">
+            <button id="move-up">
+              <img src="./public/images/uparrow.svg" alt="" />
+            </button>
+          </div>
+          <div>
+            <button id="move-down">
+              <img src="./public/images/downarrow.svg" alt="" />
+            </button>
+          </div>
+          <div>
+            <button id="save">
+              <img src="./public/images/save.svg" alt="" />
+            </button>
+          </div>
+          <div>
+            <button id="delete-row">
+              <img src="./public/images/delete.svg" alt="" />
+            </button>
+          </div>
+          <div>
+            <button id="add-row">
+              <img src="./public/images/plus.svg" alt="" />
+            </button>
+          </div>
+          <div>
+            <button id="refresh-table">
+              <img src="./public/images/refresh.svg" alt="" />
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="lower-container">
+        <table class="table">
+          <thead class="thead">
+            <tr class="tr">
+              <th>id</th>
+              <th style="border-right: 1px solid gray">chemical name</th>
+              <th>vendor</th>
+              <th>
+                density
+                <div style="font-weight: 100">g/m³</div>
+              </th>
+              <th>
+                viscocity
+                <div style="font-weight: 100">m²/S</div>
+              </th>
+              <th>packaging</th>
+              <th>packsize</th>
+              <th>unit</th>
+              <th>quantity</th>
+            </tr>
+          </thead>
+          <tbody class="tbody" id="table-body"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="index.js"></script>
+  </body>
+</html>
